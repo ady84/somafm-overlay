@@ -14,6 +14,7 @@ namespace WinFormsApp1
             this.WindowState = FormWindowState.Maximized;
 
             Label song = new Label();
+            song.UseMnemonic = false;
             song.Location = new Point(78, 10);
             song.Text = GetSong(radioId);
             Console.WriteLine(song.Text);
@@ -37,7 +38,14 @@ namespace WinFormsApp1
             var timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
             while (await timer.WaitForNextTickAsync())
             {
-                song.Text = GetSong(radioId);
+                try
+                {
+                    song.Text = GetSong(radioId);
+                }
+                catch (NullReferenceException)
+                {
+                    song.Text = "break / station id";
+                }
             }
         }
 
